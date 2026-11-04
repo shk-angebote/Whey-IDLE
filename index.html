@@ -102,7 +102,7 @@
             1. Produktion
           </button>
           <button onclick="switchTab('shop')" data-tab="shop" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">
-            2. Shop (Code &amp; Boosts)
+            2. Shop (€ &amp; Gym-Coins)
           </button>
           <button onclick="switchTab('marketing')" data-tab="marketing" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">
             3. Marketing
@@ -254,13 +254,28 @@
             <div id="machines-list" class="space-y-3"></div>
           </section>
 
-          <!-- TAB 2: SHOP (DYNAMIC GYM[NUMBER] CODE + UPGRADES) -->
+          <!-- TAB 2: INGAME-SHOP (PROMO CODE + A. EURO UPGRADES + B. GYM-COIN PREMIUM SHOP) -->
           <section id="tab-shop" class="hidden space-y-6">
-            <div>
-              <div class="text-xs text-slate-400">Gutschein-Zentrale &amp; Permanente Multiplikatoren</div>
-              <h1 class="font-display text-2xl sm:text-3xl font-bold uppercase tracking-wide text-white">
-                Multiplikatoren-Shop
-              </h1>
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div class="text-xs text-slate-400">Labor-Forschung &amp; Exklusive Gym-Coin Boosts</div>
+                <h1 class="font-display text-2xl sm:text-3xl font-bold uppercase tracking-wide text-white">
+                  Multiplikatoren-Shop
+                </h1>
+              </div>
+
+              <!-- Shop Section Filter -->
+              <div class="flex items-center gap-1 p-1 bg-[#121721] border border-white/[0.08] rounded-xl">
+                <button onclick="setShopFilter('all')" data-sf="all" class="sf-btn min-h-[34px] px-3 py-1 rounded-lg text-xs font-semibold bg-lime-400 text-slate-950 cursor-pointer">
+                  Alle Bereiche
+                </button>
+                <button onclick="setShopFilter('euro')" data-sf="euro" class="sf-btn min-h-[34px] px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 cursor-pointer">
+                  Upgrades (€)
+                </button>
+                <button onclick="setShopFilter('gymcoins')" data-sf="gymcoins" class="sf-btn min-h-[34px] px-3 py-1 rounded-lg text-xs font-semibold text-amber-300 cursor-pointer">
+                  Premium (Gym-Coins)
+                </button>
+              </div>
             </div>
 
             <!-- PROMO CODE BOX (Gym + any number -> that amount of Gym-Coins) -->
@@ -293,11 +308,37 @@
               <div id="promo-code-feedback" class="hidden mt-3 px-3.5 py-2 rounded-xl text-xs font-medium"></div>
             </div>
 
-            <div>
-              <h2 class="font-display text-xl font-bold uppercase tracking-wide text-lime-400 mb-3">
-                Produktions-Upgrades (€)
-              </h2>
+            <!-- BEREICH A: PRODUKTIONS-UPGRADES (€) -->
+            <div id="shop-section-euro">
+              <div class="mb-3 pb-2 border-b border-white/[0.08] flex items-center justify-between">
+                <div>
+                  <h2 class="font-display text-xl font-bold uppercase tracking-wide text-lime-400">
+                    A. Produktions-Upgrades (Ingame-Geld €)
+                  </h2>
+                  <p class="text-xs text-slate-400">
+                    Permanente Verbesserungen für deinen Klick-Ertrag, Dosen-Verkaufspreis und Maschinen.
+                  </p>
+                </div>
+              </div>
               <div id="upgrades-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- BEREICH B: PREMIUM-SHOP (GYM-COINS) -->
+            <div id="shop-section-gymcoins">
+              <div class="mb-3 pb-2 border-b border-amber-500/20 flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h2 class="font-display text-xl font-bold uppercase tracking-wide text-amber-400">
+                    B. Premium-Shop (Gym-Coins)
+                  </h2>
+                  <p class="text-xs text-slate-400">
+                    Zeit-Boosts &amp; Permanente Privilegien (bleiben auch nach einem Prestige-Reset dauerhaft erhalten!).
+                  </p>
+                </div>
+                <div id="shop-gymcoin-balance" class="font-mono-num text-xs font-bold text-amber-300">
+                  Guthaben: 15 Gym-Coins
+                </div>
+              </div>
+              <div id="premium-shop-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
           </section>
 
@@ -427,7 +468,7 @@
 
             <!-- GESAMTER SPIELSTAND-RESET -->
             <div class="bg-[#121721] border border-rose-500/30 rounded-2xl p-5">
-              <div class="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex flex-wrap items-start justify-between gap-4">
                 <div class="max-w-xl">
                   <div class="text-xs text-rose-400 font-semibold uppercase tracking-wider">
                     Gefahrenzone · Kompletter Werksreset
@@ -441,7 +482,7 @@
                 </div>
                 <button
                   onclick="document.getElementById('reset-confirm-box').classList.remove('hidden')"
-                  class="min-h-[44px] px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-display text-base font-bold uppercase tracking-wider cursor-pointer"
+                  class="mt-3 min-h-[44px] px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-display text-base font-bold uppercase tracking-wider cursor-pointer"
                 >
                   Gesamten Spielstand Resetten
                 </button>
@@ -499,7 +540,7 @@
     </div>
 
     <script>
-      const STORAGE_KEY = 'apex_protein_standalone_v5';
+      const STORAGE_KEY = 'apex_protein_standalone_v6';
       const LEADERBOARD_KEY = 'apex_protein_leaderboard_v1';
       const AUTO_SELL_UNLOCK_LEVEL = 50;
       const AUTO_SELL_COIN_COST = 25;
@@ -517,6 +558,67 @@
         { id: 'u1', name: 'Edelstahl-Mischkugel', cost: 75, clickMult: 2, desc: 'Verdoppelt den Basis-Klick-Ertrag.' },
         { id: 'u2', name: 'Mikronisiertes Creatin', cost: 650, clickMult: 2.5, desc: 'Erhöht den Basis-Klick-Ertrag um 2,5x.' },
         { id: 'u3', name: 'Isolat-Reinheitsgrad 99%', cost: 2400, priceMult: 1.4, desc: 'Steigert den Verkaufspreis pro Dose um +40%.' }
+      ];
+
+      const PREMIUM_SHOP_ITEMS = [
+        {
+          id: 'prem_auto_sell',
+          name: 'Automatischer Lager-Verkauf',
+          subtitle: 'Permanentes Privileg · Logistik-Automatik',
+          desc: 'Verkauft dein gesamtes Dosen-Lager sowie alle laufend produzierten Protein-Dosen vollautomatisch in Echtzeit für Euro (€) – sofort aktiv, auch ohne Maschine auf Stufe 50!',
+          cost: 25,
+          isPermanent: true
+        },
+        {
+          id: 'prem_revenue_2x_1h',
+          name: '2x Globaler Umsatz (1 Stunde)',
+          subtitle: 'Zeit-Boost · Stapelbar',
+          desc: 'Verdoppelt sofort deinen gesamten Euro-Umsatz aus allen Dosen-Verkäufen für volle 60 Minuten.',
+          cost: 20,
+          isPermanent: false,
+          durationSec: 3600
+        },
+        {
+          id: 'prem_overdrive_15m',
+          name: 'Pre-Workout Overdrive (15 Min)',
+          subtitle: 'Turbo-Boost · Stapelbar',
+          desc: '3x Klick-Power und +50% Produktionsgeschwindigkeit aller Maschinen für 15 Minuten.',
+          cost: 15,
+          isPermanent: false,
+          durationSec: 900
+        },
+        {
+          id: 'prem_instant_1h',
+          name: 'Express-Großauftrag (1 Std. Output)',
+          subtitle: 'Sofort-Auszahlung',
+          desc: 'Liefert sofort die komplette Produktion und den Umsatz von 1 Stunde passiver Laufzeit (mind. +500 €).',
+          cost: 25,
+          isPermanent: false
+        },
+        {
+          id: 'prem_vip_pass',
+          name: 'VIP-Sponsoring-Pass',
+          subtitle: 'Permanentes Privileg',
+          desc: 'Permanenter +50% (1,5x) Multiplikator auf alle Dosen-Produktionsraten (DPS) und den globalen €-Umsatz.',
+          cost: 50,
+          isPermanent: true
+        },
+        {
+          id: 'prem_golden_shaker',
+          name: '24K Gold-Shaker Lizenz',
+          subtitle: 'Permanentes Privileg',
+          desc: 'Verdoppelt deinen Klick-Ertrag dauerhaft über alle Durchläufe hinweg.',
+          cost: 35,
+          isPermanent: true
+        },
+        {
+          id: 'prem_ai_bot',
+          name: 'Autonomer Mix-Roboterarm',
+          subtitle: 'Permanentes Privileg',
+          desc: 'Betätigt automatisch 2-mal pro Sekunde „Shake Mixen!“ mit voller Klick-Stärke.',
+          cost: 65,
+          isPermanent: true
+        }
       ];
 
       const SPONSORS = [
@@ -552,6 +654,9 @@
           clicks: 0,
           autoSellBought: false,
           autoSellEnabled: true,
+          purchasedPermanentPremium: [],
+          revenueBoostSec: 0,
+          overdriveSec: 0,
           machines: { m1: 0, m2: 0, m3: 0, m4: 0, m5: 0 },
           upgrades: [],
           sponsors: { s1: 0, s2: 0, s3: 0 },
@@ -617,6 +722,7 @@
       };
 
       let buyMode = 1;
+      let shopFilter = 'all';
       let combo = 0;
       let lastClickTs = 0;
 
@@ -637,14 +743,24 @@
       }
 
       function getEconomy() {
+        const perm = state.purchasedPermanentPremium || [];
+        const hasVip = perm.includes('prem_vip_pass');
+        const hasGoldShaker = perm.includes('prem_golden_shaker');
+        const hasAiBot = perm.includes('prem_ai_bot');
+        const hasPermAutoSell = Boolean(state.autoSellBought) || perm.includes('prem_auto_sell');
+        const isRev2x = (state.revenueBoostSec || 0) > 0;
+        const isOverdrive = (state.overdriveSec || 0) > 0;
+
         const dnaMult = 1 + state.proDna * 0.15;
+        const globalProdMult = (hasVip ? 1.5 : 1) * (isOverdrive ? 1.5 : 1) * dnaMult;
+
         let dps = 0;
         let maxLvl = 0;
         MACHINES.forEach((m) => {
           const c = state.machines[m.id] || 0;
           if (c > maxLvl) maxLvl = c;
           const lvl50Mult = c >= AUTO_SELL_UNLOCK_LEVEL ? 2 : 1;
-          dps += c * m.dps * lvl50Mult * dnaMult;
+          dps += c * m.dps * lvl50Mult * globalProdMult;
         });
 
         let mktPct = 0;
@@ -652,20 +768,86 @@
           mktPct += (state.sponsors[s.id] || 0) * s.bonusPct;
         });
 
-        let price = 0.5 * (1 + mktPct / 100) * dnaMult;
+        let price = 0.5 * (1 + mktPct / 100) * (hasVip ? 1.5 : 1) * (isRev2x ? 2 : 1) * dnaMult;
         if (state.upgrades.includes('u3')) price *= 1.4;
 
-        let clickPower = 1 * dnaMult;
+        let clickPower = 1 * (hasVip ? 1.5 : 1) * (hasGoldShaker ? 2 : 1) * (isOverdrive ? 3 : 1) * dnaMult;
         if (state.upgrades.includes('u1')) clickPower *= 2;
         if (state.upgrades.includes('u2')) clickPower *= 2.5;
 
-        const autoMoneyUnlocked = Boolean(state.autoSellBought) || maxLvl >= AUTO_SELL_UNLOCK_LEVEL;
+        const autoMoneyUnlocked = hasPermAutoSell || maxLvl >= AUTO_SELL_UNLOCK_LEVEL;
         const isAutoSellActive = autoMoneyUnlocked && state.autoSellEnabled !== false;
         const allTimeRevenue = (state.lifetimeMoney || 0) + (state.totalMoney || 0);
         const pendingDna = allTimeRevenue >= 25000 ? Math.floor(Math.sqrt(allTimeRevenue / 25000)) : 0;
 
-        return { dps, maxLvl, mktPct, price, clickPower, autoMoneyUnlocked, isAutoSellActive, pendingDna, allTimeRevenue };
+        return {
+          dps,
+          maxLvl,
+          mktPct,
+          price,
+          clickPower,
+          autoMoneyUnlocked,
+          isAutoSellActive,
+          pendingDna,
+          allTimeRevenue,
+          hasAiBot
+        };
       }
+
+      window.setShopFilter = function (filter) {
+        shopFilter = filter;
+        document.querySelectorAll('.sf-btn').forEach((btn) => {
+          const active = btn.dataset.sf === filter;
+          btn.className = `sf-btn min-h-[34px] px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer ${
+            active
+              ? filter === 'gymcoins'
+                ? 'bg-amber-400 text-slate-950'
+                : 'bg-lime-400 text-slate-950'
+              : filter === 'gymcoins'
+              ? 'text-amber-300'
+              : 'text-slate-300'
+          }`;
+        });
+        document.getElementById('shop-section-euro').classList.toggle('hidden', filter === 'gymcoins');
+        document.getElementById('shop-section-gymcoins').classList.toggle('hidden', filter === 'euro');
+      };
+
+      window.buyPremiumItem = function (id) {
+        const item = PREMIUM_SHOP_ITEMS.find((x) => x.id === id);
+        if (!item) return;
+        const perm = state.purchasedPermanentPremium || [];
+        if (item.isPermanent && (perm.includes(id) || (id === 'prem_auto_sell' && state.autoSellBought))) return;
+        if (state.gymCoins < item.cost) return;
+
+        state.gymCoins -= item.cost;
+        const eco = getEconomy();
+
+        if (id === 'prem_auto_sell') {
+          state.autoSellBought = true;
+          state.autoSellEnabled = true;
+          if (!perm.includes(id)) perm.push(id);
+          const stockEuro = state.cans * eco.price;
+          state.cans = 0;
+          state.money += stockEuro;
+          state.totalMoney += stockEuro;
+        } else if (id === 'prem_revenue_2x_1h') {
+          state.revenueBoostSec = (state.revenueBoostSec || 0) + 3600;
+        } else if (id === 'prem_overdrive_15m') {
+          state.overdriveSec = (state.overdriveSec || 0) + 900;
+        } else if (id === 'prem_instant_1h') {
+          const oneHourCans = Math.max(500, eco.dps * 3600);
+          const oneHourEuro = Math.max(500, oneHourCans * eco.price);
+          state.cans += oneHourCans;
+          state.totalCans += oneHourCans;
+          state.money += oneHourEuro;
+          state.totalMoney += oneHourEuro;
+        } else if (item.isPermanent) {
+          perm.push(id);
+        }
+        state.purchasedPermanentPremium = perm;
+        saveState();
+        renderUI();
+      };
 
       // Unlock or Toggle Auto-Sell Warehouse for 25 Gym-Coins
       window.handleAutoSellButtonClick = function () {
@@ -675,6 +857,9 @@
           state.gymCoins -= AUTO_SELL_COIN_COST;
           state.autoSellBought = true;
           state.autoSellEnabled = true;
+          if (!state.purchasedPermanentPremium.includes('prem_auto_sell')) {
+            state.purchasedPermanentPremium.push('prem_auto_sell');
+          }
           const stockEuro = state.cans * eco.price;
           state.cans = 0;
           state.money += stockEuro;
@@ -971,7 +1156,7 @@
           `;
         }).join('');
 
-        // Upgrades
+        // A. Upgrades (€)
         document.getElementById('upgrades-list').innerHTML = UPGRADES.map((u) => {
           const bought = state.upgrades.includes(u.id);
           const canBuy = state.money >= u.cost && !bought;
@@ -986,6 +1171,52 @@
               }">
                 ${bought ? 'Aktiviert' : fmtEuro(u.cost)}
               </button>
+            </div>
+          `;
+        }).join('');
+
+        // B. Premium-Shop (Gym-Coins)
+        document.getElementById('shop-gymcoin-balance').textContent = `Guthaben: ${fmtNum(state.gymCoins, 0)} Gym-Coins`;
+        const permList = state.purchasedPermanentPremium || [];
+        document.getElementById('premium-shop-list').innerHTML = PREMIUM_SHOP_ITEMS.map((item) => {
+          const isOwned =
+            item.isPermanent &&
+            (permList.includes(item.id) || (item.id === 'prem_auto_sell' && state.autoSellBought));
+          const canAfford = state.gymCoins >= item.cost && !isOwned;
+          let activeTimerText = '';
+          if (item.id === 'prem_revenue_2x_1h' && (state.revenueBoostSec || 0) > 0) {
+            activeTimerText = ` · Aktiv (${Math.ceil(state.revenueBoostSec)}s)`;
+          }
+          if (item.id === 'prem_overdrive_15m' && (state.overdriveSec || 0) > 0) {
+            activeTimerText = ` · Aktiv (${Math.ceil(state.overdriveSec)}s)`;
+          }
+          return `
+            <div class="rounded-2xl p-4 border flex flex-col justify-between ${
+              isOwned ? 'bg-[#14120E] border-amber-400/40' : 'bg-[#121721] border-amber-500/20'
+            }">
+              <div>
+                <div class="text-xs text-amber-300/80 font-mono-num">${item.subtitle}${activeTimerText}</div>
+                <h3 class="text-base font-bold text-white mt-0.5">${item.name}</h3>
+                <p class="text-xs text-slate-300 mt-1 leading-relaxed">${item.desc}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">
+                <span class="font-mono-num text-xs font-bold text-amber-400">
+                  ${isOwned ? 'AKTIV' : item.cost + ' Gym-Coins'}
+                </span>
+                <button
+                  onclick="buyPremiumItem('${item.id}')"
+                  ${!canAfford || isOwned ? 'disabled' : ''}
+                  class="min-h-[40px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider ${
+                    isOwned
+                      ? 'bg-amber-500/20 text-amber-300'
+                      : canAfford
+                      ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 cursor-pointer'
+                      : 'bg-slate-800/70 text-slate-500 cursor-not-allowed'
+                  }"
+                >
+                  ${isOwned ? 'Permanent Aktiv' : 'Einlösen'}
+                </button>
+              </div>
             </div>
           `;
         }).join('');
@@ -1139,8 +1370,14 @@
 
       setInterval(() => {
         const eco = getEconomy();
-        if (eco.dps > 0 || (eco.isAutoSellActive && state.cans > 0)) {
-          const delta = eco.dps * 0.2;
+        if (state.revenueBoostSec > 0) state.revenueBoostSec = Math.max(0, state.revenueBoostSec - 0.2);
+        if (state.overdriveSec > 0) state.overdriveSec = Math.max(0, state.overdriveSec - 0.2);
+
+        const aiBotDps = eco.hasAiBot ? eco.clickPower * 2 : 0;
+        const totalDps = eco.dps + aiBotDps;
+
+        if (totalDps > 0 || (eco.isAutoSellActive && state.cans > 0)) {
+          const delta = totalDps * 0.2;
           state.totalCans += delta;
           if (eco.isAutoSellActive) {
             const soldCans = state.cans + delta;

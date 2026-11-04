@@ -70,7 +70,7 @@
           <div id="hud-money" class="text-xs sm:text-sm font-bold text-emerald-400">0,00 €</div>
         </div>
         <div class="px-2.5 py-1 rounded-lg bg-[#121721] border border-white/10 font-mono-num shrink-0">
-          <div class="text-[10px] text-slate-400 leading-none">Protein-Dosen</div>
+          <div class="text-[10px] text-slate-400 leading-none">Lager-Dosen</div>
           <div id="hud-cans" class="text-xs sm:text-sm font-bold text-lime-400">0</div>
         </div>
         <div class="px-2.5 py-1 rounded-lg bg-[#121721] border border-white/10 font-mono-num shrink-0">
@@ -89,18 +89,19 @@
     </div>
   </header>
 
-  <!-- DESKTOP NAVIGATION -->
+  <!-- DESKTOP NAVIGATION (6 REITER INKL. AUFGABEN) -->
   <div class="hidden lg:block border-b border-white/10 bg-[#0D1117]">
     <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-12">
-      <nav class="flex items-center gap-2">
-        <button onclick="switchTab('production')" id="dtab-production" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-lime-400 text-slate-950 cursor-pointer">1. Produktion</button>
-        <button onclick="switchTab('shop')" id="dtab-shop" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">2. Shop & Multiplikatoren</button>
-        <button onclick="switchTab('marketing')" id="dtab-marketing" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">3. Marketing & Hype</button>
-        <button onclick="switchTab('prestige')" id="dtab-prestige" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-sky-300 hover:text-sky-200 cursor-pointer">4. Prestige</button>
-        <button onclick="switchTab('stats')" id="dtab-stats" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">5. Statistiken</button>
+      <nav class="flex items-center gap-1.5">
+        <button onclick="switchTab('production')" id="dtab-production" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-lime-400 text-slate-950 cursor-pointer">1. Produktion</button>
+        <button onclick="switchTab('shop')" id="dtab-shop" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">2. Shop</button>
+        <button onclick="switchTab('marketing')" id="dtab-marketing" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">3. Marketing</button>
+        <button onclick="switchTab('tasks')" id="dtab-tasks" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-300 hover:text-amber-200 cursor-pointer">4. Aufgaben (Täglich & Meilensteine)</button>
+        <button onclick="switchTab('prestige')" id="dtab-prestige" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-sky-300 hover:text-sky-200 cursor-pointer">5. Prestige</button>
+        <button onclick="switchTab('stats')" id="dtab-stats" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">6. Statistik</button>
       </nav>
       <div class="text-xs text-slate-400 font-mono-num">
-        Dosenpreis: <span id="top-can-price" class="text-emerald-400 font-semibold">0,50 €</span> · Hype: <span id="top-hype" class="text-lime-400 font-semibold">+0%</span>
+        Dosenpreis: <span id="top-can-price" class="text-emerald-400 font-semibold">0,50 €</span> · <span id="top-auto-status" class="text-amber-400">Auto-Geld ab Stufe 50</span>
       </div>
     </div>
   </div>
@@ -109,13 +110,11 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- LINKE SPALTE: SHAKER ARENA & TÄGLICHE MISSIONEN -->
+      <!-- LINKE SPALTE: SHAKER ARENA & STUFE-50 AUTO-GELD STATUS -->
       <div id="left-column" class="lg:col-span-5 lg:sticky lg:top-20 flex flex-col gap-4">
         <div id="shaker-arena" class="relative bg-[#121721] border border-white/10 rounded-2xl p-5 flex flex-col justify-between overflow-hidden">
-          <!-- Floating Text Layer -->
           <div id="floating-text-layer" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
 
-          <!-- Header + Combo Decay Bar -->
           <div class="relative z-10 flex flex-col gap-2 border-b border-white/10 pb-3">
             <div class="flex items-center justify-between">
               <div>
@@ -136,15 +135,15 @@
           </div>
 
           <!-- Shaker Button mit SVG Combo Decay Ring -->
-          <div class="relative z-10 my-4 flex flex-col items-center justify-center">
-            <div class="relative w-48 h-48 flex items-center justify-center">
+          <div class="relative z-10 my-3 flex flex-col items-center justify-center">
+            <div class="relative w-44 h-44 flex items-center justify-center">
               <svg viewBox="0 0 200 200" class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none">
                 <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="5" />
                 <circle id="combo-ring-circle" cx="100" cy="100" r="92" fill="none" stroke="transparent" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="578.05" stroke-dashoffset="578.05" />
               </svg>
 
-              <button id="shaker-circle-btn" onclick="handleMixClick(event)" class="w-40 h-40 flex items-center justify-center rounded-full bg-slate-900/90 border border-white/10 hover:border-lime-400/50 active:scale-95 transition-transform cursor-pointer">
-                <svg viewBox="0 0 120 140" class="w-28 h-32" fill="none">
+              <button onclick="handleMixClick()" class="w-36 h-36 flex items-center justify-center rounded-full bg-slate-900/90 border border-white/10 hover:border-lime-400/50 active:scale-95 transition-transform cursor-pointer">
+                <svg viewBox="0 0 120 140" class="w-24 h-28" fill="none">
                   <rect x="48" y="8" width="24" height="8" rx="3" fill="#A3E635" />
                   <path d="M32 22C32 17.58 35.58 14 40 14H80C84.42 14 88 17.58 88 22V28H32V22Z" fill="#1E293B" stroke="#A3E635" stroke-width="2.5" />
                   <rect x="28" y="28" width="64" height="10" rx="3" fill="#0F172A" stroke="#94A3B8" stroke-width="2" />
@@ -157,37 +156,43 @@
             </div>
 
             <div class="mt-2 text-center text-xs text-slate-400">
-              Ertrag pro Klick: <span id="click-yield-cans" class="font-mono-num font-semibold text-lime-400">+1,00 Dosen</span> · <span id="click-yield-euro" class="font-mono-num font-semibold text-emerald-400">+0,50 €</span>
+              Ertrag pro Klick: <span id="click-yield-cans" class="font-mono-num font-semibold text-lime-400">+1,00 Dosen</span> · Wert: <span id="click-yield-euro" class="font-mono-num text-slate-200">0,50 €</span>
             </div>
           </div>
 
-          <!-- Haupt-CTA: Shake Mixen! -->
-          <div class="relative z-10 flex flex-col gap-2.5">
-            <button onclick="handleMixClick(event)" class="relative overflow-hidden w-full min-h-[54px] py-3.5 px-6 rounded-xl bg-lime-400 hover:bg-lime-300 active:scale-[0.98] text-slate-950 font-display text-2xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-3 cursor-pointer">
+          <!-- Haupt-Buttons: Shake Mixen! + Lager Verkaufen -->
+          <div class="relative z-10 flex flex-col gap-2">
+            <button onclick="handleMixClick()" class="w-full min-h-[52px] py-3 px-6 rounded-xl bg-lime-400 hover:bg-lime-300 active:scale-[0.98] text-slate-950 font-display text-2xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-3 cursor-pointer">
               <span>Shake Mixen!</span>
-              <span id="cta-yield-badge" class="text-sm font-mono-num font-bold text-slate-900">(+1,00)</span>
+              <span id="cta-yield-badge" class="text-sm font-mono-num font-bold text-slate-900">(+1,00 Dosen)</span>
             </button>
+
+            <button id="sell-cans-btn" onclick="handleSellCans()" class="w-full min-h-[44px] py-2.5 px-4 rounded-xl font-mono-num text-xs font-bold flex items-center justify-between border bg-emerald-500/20 border-emerald-400/50 text-emerald-300 cursor-pointer">
+              <span id="sell-cans-label">Lager Verkaufen (0 Dosen)</span>
+              <span id="sell-cans-euro">+0,00 €</span>
+            </button>
+
             <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-slate-400 font-mono-num">
               <span>Passiv: <strong id="arena-dps" class="text-slate-200">0,0 DPS</strong></span>
               <span>·</span>
-              <span>Umsatz: <strong id="arena-eps" class="text-emerald-400">+0,00 €/s</strong></span>
+              <span id="arena-auto-status" class="text-amber-400">Auto-Geld ab Stufe 50 (0/50)</span>
             </div>
           </div>
         </div>
 
-        <!-- TÄGLICHE MISSIONEN -->
-        <section class="bg-[#121721] border border-white/10 rounded-2xl p-4">
-          <div class="flex items-center justify-between pb-2.5 border-b border-white/10">
-            <div>
-              <h3 class="font-display text-lg font-bold uppercase tracking-wide text-white">Tägliche Missionen</h3>
-              <span id="daily-status-sub" class="text-[11px] text-slate-400 font-mono-num">0/3 erledigt · Rotiert täglich</span>
-            </div>
-            <button onclick="rotateDailyMissions()" class="px-2.5 py-1 rounded-lg bg-[#090C10] border border-amber-500/30 text-amber-300 text-[11px] font-mono-num font-semibold cursor-pointer">
-              Neu (3 Coins)
-            </button>
+        <!-- AUTO-GELDGENERIERUNG INFO CARD -->
+        <div class="bg-[#121721] border border-white/10 rounded-2xl p-4">
+          <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider mb-1.5">
+            <span class="text-white">Automatische Geldgenerierung (€/s)</span>
+            <span id="auto-card-badge" class="font-mono-num text-amber-400">Stufe 0 / 50</span>
           </div>
-          <div id="daily-missions-list" class="mt-3 space-y-2.5"></div>
-        </section>
+          <p id="auto-card-desc" class="text-xs text-slate-300 leading-relaxed">
+            Kaufe eine beliebige Maschine auf Stufe 50, um das automatische Geldgenerieren (€/s) freizuschalten. Bis dahin kannst du deine Dosen jederzeit über „Lager Verkaufen“ zu Geld machen.
+          </p>
+          <div class="mt-2.5 w-full h-2 bg-[#090C10] rounded-full overflow-hidden">
+            <div id="auto-card-bar" class="h-full bg-amber-400 transition-all" style="width: 0%"></div>
+          </div>
+        </div>
       </div>
 
       <!-- RECHTE SPALTE: TABS -->
@@ -195,54 +200,42 @@
         <div id="tab-production" class="space-y-3"></div>
         <div id="tab-shop" class="hidden space-y-6"></div>
         <div id="tab-marketing" class="hidden space-y-3"></div>
+        <div id="tab-tasks" class="hidden space-y-6"></div>
         <div id="tab-prestige" class="hidden space-y-4"></div>
         <div id="tab-stats" class="hidden space-y-4"></div>
       </div>
     </div>
   </main>
 
-  <!-- MOBILE UNTERE TAB-LEISTE -->
-  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-[#0D1117]/95 backdrop-blur-md border-t border-white/10 grid grid-cols-5 items-center px-1">
+  <!-- MOBILE UNTERE TAB-LEISTE (6 REITER INKL. AUFGABEN) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 h-16 bg-[#0D1117]/95 backdrop-blur-md border-t border-white/10 grid grid-cols-6 items-center px-1">
     <button onclick="switchTab('production')" id="mtab-production" class="min-h-[48px] flex flex-col items-center justify-center text-lime-400 text-[10px] font-semibold">Produktion</button>
     <button onclick="switchTab('shop')" id="mtab-shop" class="min-h-[48px] flex flex-col items-center justify-center text-slate-400 text-[10px] font-semibold">Shop</button>
     <button onclick="switchTab('marketing')" id="mtab-marketing" class="min-h-[48px] flex flex-col items-center justify-center text-slate-400 text-[10px] font-semibold">Marketing</button>
+    <button onclick="switchTab('tasks')" id="mtab-tasks" class="min-h-[48px] flex flex-col items-center justify-center text-amber-400 text-[10px] font-semibold">Aufgaben</button>
     <button onclick="switchTab('prestige')" id="mtab-prestige" class="min-h-[48px] flex flex-col items-center justify-center text-slate-400 text-[10px] font-semibold">Prestige</button>
     <button onclick="switchTab('stats')" id="mtab-stats" class="min-h-[48px] flex flex-col items-center justify-center text-slate-400 text-[10px] font-semibold">Statistik</button>
   </nav>
 
-  <!-- OFFLINE-WILLKOMMENS-MODAL -->
-  <div id="offline-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="w-full max-w-md bg-[#121721] border border-white/15 rounded-2xl p-6">
-      <div id="offline-duration" class="text-xs font-medium text-lime-400">Offline-Produktionsbericht</div>
-      <h2 class="font-display text-3xl font-bold uppercase text-white mt-1">Willkommen zurück, Boss!</h2>
-      <p class="text-sm text-slate-300 mt-1">Deine Maschinen haben während deiner Abwesenheit weiterproduziert:</p>
-      <div class="my-5 space-y-2 bg-[#090C10] border border-white/10 rounded-xl p-4 font-mono-num">
-        <div class="flex justify-between text-sm"><span class="text-slate-400">Produzierte Dosen:</span><strong id="offline-cans" class="text-lime-400">+0</strong></div>
-        <div class="flex justify-between text-sm"><span class="text-slate-400">Offline-Umsatz:</span><strong id="offline-money" class="text-emerald-400">+0,00 €</strong></div>
-      </div>
-      <button onclick="claimOffline()" class="w-full py-3 rounded-xl bg-lime-400 hover:bg-lime-300 text-slate-950 font-display text-xl font-bold uppercase cursor-pointer">Ertrag Einsammeln</button>
-    </div>
-  </div>
-
   <script>
-    const STORAGE_KEY = 'apex_protein_standalone_v2';
+    const STORAGE_KEY = 'apex_protein_standalone_v3';
     const BASE_PRICE = 0.50;
+    const AUTO_UNLOCK_LVL = 50;
 
     const MACHINES = [
-      { id: 'scoop', name: 'Messbecher-Station', desc: 'Präzisions-Messlöffel zur manuellen Dosierung.', baseCost: 25, mult: 1.18, dps: 0.2 },
-      { id: 'rack', name: 'Pneumatisches Shaker-Rack', desc: 'Doppelkammer-Rüttler im Dauerbetrieb.', baseCost: 280, mult: 1.19, dps: 1.4 },
-      { id: 'mixer', name: 'Industriemischer V8', desc: 'Edelstahl-Wirbelstrommischer für 500kg-Batches.', baseCost: 3800, mult: 1.20, dps: 11 },
-      { id: 'robot', name: 'Roboter-Abfüllstraße', desc: 'Vollautomatische 6-Achsen-Dosieranlage.', baseCost: 55000, mult: 1.20, dps: 75 },
-      { id: 'reactor', name: 'Mikrofiltrations-Reaktor', desc: 'Keramische Cross-Flow Whey-Isolat-Anlage.', baseCost: 850000, mult: 1.21, dps: 480 },
-      { id: 'silo', name: 'Groß-Silo Terminal', desc: 'Klimatisierter 500-Tonnen-Rohstoff-Bunker.', baseCost: 14000000, mult: 1.21, dps: 3200 }
+      { id: 'scoop', name: 'Messbecher-Station', desc: 'Präzisions-Messlöffel. Ab Stufe 50: Automatischer Direktverkauf (€/s)!', baseCost: 15, mult: 1.085, dps: 0.4 },
+      { id: 'rack', name: 'Pneumatisches Shaker-Rack', desc: 'Doppelkammer-Rüttler im Dauerbetrieb. Ab Stufe 50: Auto-Geld (€/s)!', baseCost: 180, mult: 1.09, dps: 2.5 },
+      { id: 'mixer', name: 'Industriemischer V8', desc: 'Edelstahl-Wirbelstrommischer. Ab Stufe 50: Auto-Geld (€/s)!', baseCost: 2400, mult: 1.095, dps: 18 },
+      { id: 'robot', name: 'Roboter-Abfüllstraße', desc: 'Vollautomatische 6-Achsen-Dosieranlage. Ab Stufe 50: Auto-Geld (€/s)!', baseCost: 35000, mult: 1.10, dps: 120 },
+      { id: 'reactor', name: 'Mikrofiltrations-Reaktor', desc: 'Keramische Cross-Flow Whey-Isolat-Anlage. Ab Stufe 50: Auto-Geld (€/s)!', baseCost: 480000, mult: 1.105, dps: 850 },
+      { id: 'silo', name: 'Groß-Silo Terminal', desc: 'Klimatisierter 500-Tonnen-Rohstoff-Bunker. Ab Stufe 50: Auto-Geld (€/s)!', baseCost: 7500000, mult: 1.11, dps: 6200 }
     ];
 
     const UPGRADES = [
-      { id: 'u_click', name: 'Ergonomischer Edelstahl-Shaker', desc: '+50% Basis-Klick-Stärke permanent.', cost: 150, type: 'click', val: 1.5 },
-      { id: 'u_scoop', name: 'Laser-geeichte Messbecher', desc: 'Messbecher-Stationen +75% Output.', cost: 650, type: 'machine', target: 'scoop', val: 1.75 },
-      { id: 'u_price1', name: 'Mikronisierte Kreatin-Formel', desc: '+25% Verkaufspreis pro Protein-Dose.', cost: 2200, type: 'price', val: 1.25 },
-      { id: 'u_rack', name: 'Hochdruck-Ventiltechnik', desc: 'Shaker-Racks +75% Output.', cost: 7500, type: 'machine', target: 'rack', val: 1.75 },
-      { id: 'u_mixer', name: 'Bürstenlose Motoren', desc: 'Industriemischer V8 +75% Output.', cost: 95000, type: 'machine', target: 'mixer', val: 1.75 }
+      { id: 'u_click', name: 'Ergonomischer Edelstahl-Shaker', desc: '+50% Basis-Klick-Stärke permanent.', cost: 120, type: 'click', val: 1.5 },
+      { id: 'u_scoop', name: 'Laser-geeichte Messbecher', desc: 'Messbecher-Stationen +75% Output.', cost: 450, type: 'machine', target: 'scoop', val: 1.75 },
+      { id: 'u_price1', name: 'Mikronisierte Kreatin-Formel', desc: '+30% Verkaufspreis pro Protein-Dose.', cost: 1800, type: 'price', val: 1.30 },
+      { id: 'u_rack', name: 'Hochdruck-Ventiltechnik', desc: 'Shaker-Racks +75% Output.', cost: 6200, type: 'machine', target: 'rack', val: 1.75 }
     ];
 
     const PREMIUM_ITEMS = [
@@ -252,16 +245,23 @@
     ];
 
     const SPONSORS = [
-      { id: 's_flyer', name: 'Lokale Studio-Flyer', desc: 'Rabattaktionen vor lokalen Studios.', baseCost: 350, mult: 1.55, bonus: 4 },
-      { id: 's_pod', name: 'Fitness-Podcast Host-Reads', desc: 'Exklusive Spots in Top-Trainings-Podcasts.', baseCost: 3200, mult: 1.58, bonus: 9 },
-      { id: 's_inf', name: 'Micro-Influencer Squad', desc: 'Tägliche Live-Tests mit Rabattcodes.', baseCost: 28000, mult: 1.60, bonus: 18 },
-      { id: 's_olymp', name: 'Olympia-Athleten Kampagne', desc: 'Weltweite Signature-Linie mit Champions.', baseCost: 36000000, mult: 1.68, bonus: 160 }
+      { id: 's_flyer', name: 'Lokale Studio-Flyer', desc: 'Rabattaktionen vor lokalen Studios.', baseCost: 250, mult: 1.45, bonus: 5 },
+      { id: 's_pod', name: 'Fitness-Podcast Host-Reads', desc: 'Exklusive Spots in Top-Trainings-Podcasts.', baseCost: 2400, mult: 1.48, bonus: 10 },
+      { id: 's_inf', name: 'Micro-Influencer Squad', desc: 'Tägliche Live-Tests mit Rabattcodes.', baseCost: 22000, mult: 1.50, bonus: 20 },
+      { id: 's_olymp', name: 'Olympia-Athleten Kampagne', desc: 'Weltweite Signature-Linie mit Champions.', baseCost: 28000000, mult: 1.58, bonus: 180 }
     ];
 
     const DAILY_MISSIONS = [
       { id: 'dm_clicks', title: 'Manuelles Workout', desc: 'Führe 200 manuelle Klicks aus.', metric: 'dailyClicks', target: 200, rewardCoins: 10, rewardText: '+10 Gym-Coins' },
       { id: 'dm_cans', title: 'Studio-Nachschub', desc: 'Produziere 2.500 Protein-Dosen.', metric: 'dailyCans', target: 2500, rewardBoost: 900, rewardText: '15m 2x Umsatz' },
-      { id: 'dm_machines', title: 'Kapazitäts-Ausbau', desc: 'Kaufe 10 Produktions-Maschinen.', metric: 'dailyMachines', target: 10, rewardCoins: 12, rewardText: '+12 Gym-Coins' }
+      { id: 'dm_machines', title: 'Kapazitäts-Ausbau', desc: 'Kaufe 25 Maschinen-Stufen.', metric: 'dailyMachines', target: 25, rewardCoins: 12, rewardText: '+12 Gym-Coins' }
+    ];
+
+    const MILESTONES = [
+      { id: 'ms_clicks50', title: 'Aufwärm-Satz', desc: 'Mixe 50 Shakes manuell per Klick.', metric: 'totalClicks', target: 50, coins: 5 },
+      { id: 'ms_lvl50', title: 'Automatischer Vertrieb (Stufe 50)', desc: 'Kaufe eine Maschine auf Stufe 50 für Auto-Geld (€/s).', metric: 'maxMachineLvl', target: 50, coins: 15 },
+      { id: 'ms_cans10k', title: 'Großproduzent', desc: 'Produziere insgesamt 10.000 Protein-Dosen.', metric: 'totalCans', target: 10000, coins: 12 },
+      { id: 'ms_money25k', title: 'Fünfstelliger Umsatz', desc: 'Erwirtschafte insgesamt 25.000 € Umsatz.', metric: 'totalMoney', target: 25000, coins: 15 }
     ];
 
     let state = {
@@ -274,14 +274,15 @@
       sponsors: { s_flyer: 0, s_pod: 0, s_inf: 0, s_olymp: 0 },
       revBoostSec: 0,
       dailyClicks: 0, dailyCans: 0, dailyMachines: 0, claimedDaily: [],
+      unlockedMilestones: [],
       lastSaved: Date.now()
     };
 
     let activeTab = 'production';
+    let buyMode = 1; // 1, 10, 'max'
     let comboCount = 0;
     let lastClickTs = 0;
     const COMBO_WINDOW_MS = 2400;
-    let pendingOffline = null;
 
     function fmtNum(v, dec = 1) {
       if (v < 1000) return dec === 0 ? Math.floor(v).toLocaleString('de-DE') : v.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
@@ -291,6 +292,33 @@
     }
     function fmtEuro(v) { return fmtNum(v, 2) + ' €'; }
 
+    function calcBulkBuy(baseCost, mult, owned, mode, money) {
+      const first = baseCost * Math.pow(mult, owned);
+      if (mode === 1) return { count: 1, cost: first };
+      if (mode === 10) return { count: 10, cost: first * ((Math.pow(mult, 10) - 1) / (mult - 1)) };
+      if (money < first) return { count: 1, cost: first };
+      const maxCount = Math.max(1, Math.min(250, Math.floor(Math.log((money * (mult - 1)) / first + 1) / Math.log(mult))));
+      return { count: maxCount, cost: first * ((Math.pow(mult, maxCount) - 1) / (mult - 1)) };
+    }
+
+    function setBuyMode(m) {
+      buyMode = m;
+      renderAll();
+    }
+
+    function renderBuyModeHeader() {
+      return `
+        <div class="flex items-center gap-1 p-1 bg-[#121721] border border-white/10 rounded-xl">
+          <span class="text-[11px] text-slate-400 px-2">Kaufmenge:</span>
+          ${[1, 10, 'max'].map(m => `
+            <button onclick="setBuyMode(${m === 'max' ? "'max'" : m})" class="px-3 py-1 rounded-lg text-xs font-mono-num font-bold uppercase cursor-pointer ${buyMode === m ? 'bg-lime-400 text-slate-950' : 'text-slate-300 hover:text-white'}">
+              ${m === 'max' ? 'Max' : m + 'x'}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
     function calcEconomy() {
       const hasVip = state.permPremium.includes('p_vip');
       const hasGold = state.permPremium.includes('p_gold');
@@ -298,16 +326,20 @@
       const vipMult = hasVip ? 1.5 : 1;
 
       let totalDps = 0;
+      let maxMachineLvl = 0;
       const machineDps = {};
       MACHINES.forEach(m => {
         const count = state.machines[m.id] || 0;
+        if (count > maxMachineLvl) maxMachineLvl = count;
         let uMult = 1;
         UPGRADES.forEach(u => { if (u.type === 'machine' && u.target === m.id && state.upgrades.includes(u.id)) uMult *= u.val; });
-        const milestoneMult = count >= 50 ? 3.06 : count >= 25 ? 1.75 : 1;
+        const milestoneMult = count >= 50 ? 3.5 : count >= 25 ? 1.75 : 1;
         const single = m.dps * uMult * milestoneMult * vipMult * dnaMult;
         machineDps[m.id] = single * count;
         totalDps += single * count;
       });
+
+      const autoUnlocked = maxMachineLvl >= AUTO_UNLOCK_LVL;
 
       let hypePct = 0;
       SPONSORS.forEach(s => { hypePct += (state.sponsors[s.id] || 0) * s.bonus; });
@@ -323,25 +355,25 @@
       const critChance = 6 + (hasGold ? 12 : 0);
       const critMult = hasGold ? 4.5 : 2.2;
 
+      const autoEps = autoUnlocked ? totalDps * canPrice : 0;
+
       const allTimeRev = state.lifetimeMoney + state.totalMoney;
       const potDna = allTimeRev >= 50000 ? Math.floor(Math.pow(allTimeRev / 50000, 0.52)) : 0;
       const pendingDna = Math.max(0, potDna - state.totalDnaClaimed);
 
-      return { totalDps, machineDps, hypePct, canPrice, clickPower, comboMult, critChance, critMult, eps: totalDps * canPrice, pendingDna };
+      return { totalDps, machineDps, maxMachineLvl, autoUnlocked, hypePct, canPrice, clickPower, comboMult, critChance, critMult, autoEps, pendingDna };
     }
 
-    function spawnFloatingText(cans, euro, isCrit) {
+    function spawnFloatingText(label, subLabel, isCrit) {
       const layer = document.getElementById('floating-text-layer');
       const el = document.createElement('div');
       const driftX = Math.round(Math.random() * 44 - 22);
-      el.className = 'animate-float-text absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center whitespace-nowrap';
+      el.className = 'animate-float-text absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center whitespace-nowrap';
       el.style.setProperty('--drift-x', driftX + 'px');
       el.style.setProperty('--float-scale', isCrit ? '1.18' : '1');
       el.innerHTML = `
-        <div class="font-mono-num font-bold ${isCrit ? 'text-amber-300 text-base' : 'text-lime-400 text-sm'} drop-shadow">
-          ${isCrit ? 'KRIT! ' : ''}+${fmtNum(cans, 2)} Dosen
-        </div>
-        <div class="font-mono-num text-[11px] font-semibold text-emerald-300 drop-shadow">+${fmtEuro(euro)}</div>
+        <div class="font-mono-num font-bold ${isCrit ? 'text-amber-300 text-base' : 'text-lime-400 text-sm'} drop-shadow">${label}</div>
+        ${subLabel ? `<div class="font-mono-num text-[11px] font-semibold text-emerald-300 drop-shadow">${subLabel}</div>` : ''}
       `;
       layer.appendChild(el);
       setTimeout(() => el.remove(), 880);
@@ -353,28 +385,53 @@
       const eco = calcEconomy();
       const isCrit = Math.random() * 100 < eco.critChance;
       const cansGained = eco.clickPower * eco.comboMult * (isCrit ? eco.critMult : 1);
-      const moneyGained = cansGained * eco.canPrice;
+      const autoEuro = eco.autoUnlocked ? cansGained * eco.canPrice : 0;
 
       state.cans += cansGained;
       state.totalCans += cansGained;
-      state.money += moneyGained;
-      state.totalMoney += moneyGained;
+      state.money += autoEuro;
+      state.totalMoney += autoEuro;
       state.totalClicks += 1;
       state.dailyClicks += 1;
       state.dailyCans += cansGained;
 
-      spawnFloatingText(cansGained, moneyGained, isCrit);
+      spawnFloatingText(
+        `${isCrit ? 'KRIT! ' : ''}+${fmtNum(cansGained, 2)} Dosen`,
+        autoEuro > 0 ? `+${fmtEuro(autoEuro)}` : '',
+        isCrit
+      );
+      renderAll();
+    }
+
+    function handleSellCans() {
+      if (state.cans < 0.5) return;
+      const eco = calcEconomy();
+      const earned = state.cans * eco.canPrice;
+      state.cans = 0;
+      state.money += earned;
+      state.totalMoney += earned;
+      spawnFloatingText(`VERKAUFT! +${fmtEuro(earned)}`, '', true);
       renderAll();
     }
 
     function buyMachine(id) {
       const m = MACHINES.find(x => x.id === id);
       const owned = state.machines[id] || 0;
-      const cost = m.baseCost * Math.pow(m.mult, owned);
+      const { count, cost } = calcBulkBuy(m.baseCost, m.mult, owned, buyMode, state.money);
       if (state.money < cost) return;
       state.money -= cost;
-      state.machines[id] = owned + 1;
-      state.dailyMachines += 1;
+      state.machines[id] = owned + count;
+      state.dailyMachines += count;
+      renderAll();
+    }
+
+    function buySponsor(id) {
+      const s = SPONSORS.find(x => x.id === id);
+      const lvl = state.sponsors[id] || 0;
+      const { count, cost } = calcBulkBuy(s.baseCost, s.mult, lvl, buyMode, state.money);
+      if (state.money < cost) return;
+      state.money -= cost;
+      state.sponsors[id] = lvl + count;
       renderAll();
     }
 
@@ -396,16 +453,6 @@
       renderAll();
     }
 
-    function buySponsor(id) {
-      const s = SPONSORS.find(x => x.id === id);
-      const lvl = state.sponsors[id] || 0;
-      const cost = s.baseCost * Math.pow(s.mult, lvl);
-      if (state.money < cost) return;
-      state.money -= cost;
-      state.sponsors[id] = lvl + 1;
-      renderAll();
-    }
-
     function claimDaily(id) {
       const m = DAILY_MISSIONS.find(x => x.id === id);
       if (!m || state.claimedDaily.includes(id) || state[m.metric] < m.target) return;
@@ -415,21 +462,11 @@
       renderAll();
     }
 
-    function rotateDailyMissions() {
-      if (state.gymCoins < 3) return;
-      state.gymCoins -= 3;
-      state.dailyClicks = 0; state.dailyCans = 0; state.dailyMachines = 0;
-      state.claimedDaily = [];
-      renderAll();
-    }
-
     function performPrestige() {
       const eco = calcEconomy();
       if (eco.pendingDna <= 0) return;
       state.lifetimeMoney += state.totalMoney;
-      state.totalMoney = 0;
-      state.money = 0;
-      state.cans = 0;
+      state.totalMoney = 0; state.money = 0; state.cans = 0;
       state.proDna += eco.pendingDna;
       state.totalDnaClaimed += eco.pendingDna;
       state.prestigeCount += 1;
@@ -443,7 +480,7 @@
 
     function switchTab(tab) {
       activeTab = tab;
-      ['production', 'shop', 'marketing', 'prestige', 'stats'].forEach(t => {
+      ['production', 'shop', 'marketing', 'tasks', 'prestige', 'stats'].forEach(t => {
         document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
       });
       renderAll();
@@ -457,56 +494,41 @@
       document.getElementById('hud-coins').textContent = fmtNum(state.gymCoins, 0);
       document.getElementById('hud-dna').textContent = fmtNum(state.proDna, 0);
       document.getElementById('top-can-price').textContent = fmtEuro(eco.canPrice);
-      document.getElementById('top-hype').textContent = '+' + eco.hypePct + '%';
+      document.getElementById('top-auto-status').textContent = eco.autoUnlocked ? `Auto-Geld: +${fmtEuro(eco.autoEps)}/s` : `Auto-Geld ab Stufe 50 (${eco.maxMachineLvl}/50)`;
 
       document.getElementById('crit-chance-label').textContent = eco.critChance + '%';
       document.getElementById('combo-count-label').textContent = `Pump-Combo (${comboCount}/25)`;
       document.getElementById('combo-mult-label').textContent = eco.comboMult.toFixed(2).replace('.', ',') + 'x';
       document.getElementById('click-yield-cans').textContent = '+' + fmtNum(eco.clickPower * eco.comboMult, 2) + ' Dosen';
-      document.getElementById('click-yield-euro').textContent = '+' + fmtEuro(eco.clickPower * eco.comboMult * eco.canPrice);
-      document.getElementById('cta-yield-badge').textContent = '(+' + fmtNum(eco.clickPower * eco.comboMult, 2) + ')';
+      document.getElementById('click-yield-euro').textContent = fmtEuro(eco.clickPower * eco.comboMult * eco.canPrice);
+      document.getElementById('cta-yield-badge').textContent = `(+$${fmtNum(eco.clickPower * eco.comboMult, 2)} Dosen)`.replace('$', '');
+      document.getElementById('sell-cans-label').textContent = `Lager Verkaufen (${fmtNum(state.cans, 1)} Dosen)`;
+      document.getElementById('sell-cans-euro').textContent = '+' + fmtEuro(state.cans * eco.canPrice);
       document.getElementById('arena-dps').textContent = fmtNum(eco.totalDps, 1) + ' DPS';
-      document.getElementById('arena-eps').textContent = '+' + fmtEuro(eco.eps) + '/s';
+      document.getElementById('arena-auto-status').textContent = eco.autoUnlocked ? `Auto-Geld: +${fmtEuro(eco.autoEps)}/s` : `Auto-Geld ab Stufe 50 (${eco.maxMachineLvl}/50)`;
 
-      // Daily Missions
-      document.getElementById('daily-status-sub').textContent = `${state.claimedDaily.length}/3 erledigt · Rotiert täglich`;
-      document.getElementById('daily-missions-list').innerHTML = DAILY_MISSIONS.map(m => {
-        const cur = Math.min(m.target, state[m.metric] || 0);
-        const done = cur >= m.target;
-        const claimed = state.claimedDaily.includes(m.id);
-        const pct = Math.min(100, (cur / m.target) * 100);
-        return `
-          <div class="p-3 rounded-xl bg-[#090C10] border border-white/10">
-            <div class="flex items-center justify-between gap-2">
-              <div>
-                <div class="text-xs font-bold text-white">${m.title} <span class="text-amber-300 font-mono-num">· ${m.rewardText}</span></div>
-                <div class="text-[11px] text-slate-400">${m.desc}</div>
-              </div>
-              <button onclick="claimDaily('${m.id}')" ${(!done || claimed) ? 'disabled' : ''} class="px-3 py-1 rounded-lg text-[11px] font-bold uppercase ${claimed ? 'bg-lime-500/20 text-lime-300' : done ? 'bg-lime-400 text-slate-950 cursor-pointer' : 'bg-slate-800 text-slate-400 font-mono-num'}">
-                ${claimed ? 'Erhalten' : done ? 'Abholen!' : `${fmtNum(cur, 0)}/${fmtNum(m.target, 0)}`}
-              </button>
-            </div>
-            <div class="mt-2 w-full h-1.5 bg-[#121721] rounded-full overflow-hidden">
-              <div class="h-full bg-lime-400" style="width:${pct}%"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
+      document.getElementById('auto-card-badge').textContent = eco.autoUnlocked ? `AKTIV (+${fmtEuro(eco.autoEps)}/s)` : `Stufe ${eco.maxMachineLvl} / 50`;
+      document.getElementById('auto-card-bar').style.width = Math.min(100, (eco.maxMachineLvl / 50) * 100) + '%';
 
-      // Tab 1: Machines
-      document.getElementById('tab-production').innerHTML = `<h1 class="font-display text-2xl font-bold uppercase text-white mb-2">Produktions-Maschinen</h1>` + MACHINES.map(m => {
+      // Tab 1: Produktion mit 1x / 10x / Max
+      document.getElementById('tab-production').innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h1 class="font-display text-2xl font-bold uppercase text-white">Produktions-Maschinen</h1>
+          ${renderBuyModeHeader()}
+        </div>
+      ` + MACHINES.map(m => {
         const owned = state.machines[m.id] || 0;
-        const cost = m.baseCost * Math.pow(m.mult, owned);
+        const { count, cost } = calcBulkBuy(m.baseCost, m.mult, owned, buyMode, state.money);
         const can = state.money >= cost;
         return `
-          <div class="bg-[#121721] border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3">
+          <div class="bg-[#121721] border ${owned >= 50 ? 'border-emerald-500/40' : 'border-white/10'} rounded-2xl p-4 flex items-center justify-between gap-3">
             <div>
-              <div class="text-xs text-slate-400 font-mono-num">Stufe ${owned} · Gesamt: ${fmtNum(eco.machineDps[m.id] || 0, 2)} DPS</div>
+              <div class="text-xs text-slate-400 font-mono-num">Stufe ${owned} · ${owned >= 50 ? '<span class="text-emerald-400 font-bold">Auto-Geld Aktiv</span>' : `Auto-Geld ab Stufe 50 (${owned}/50)`}</div>
               <h3 class="text-base font-bold text-white">${m.name}</h3>
               <p class="text-xs text-slate-300">${m.desc}</p>
             </div>
-            <button onclick="buyMachine('${m.id}')" ${!can ? 'disabled' : ''} class="min-h-[48px] min-w-[120px] px-4 py-2 rounded-xl font-mono-num text-right ${can ? 'bg-lime-400 text-slate-950 font-bold cursor-pointer' : 'bg-slate-800 text-slate-500'}">
-              <div class="text-[10px] uppercase">Kaufen +1</div>
+            <button onclick="buyMachine('${m.id}')" ${!can ? 'disabled' : ''} class="min-h-[48px] min-w-[125px] px-4 py-2 rounded-xl font-mono-num text-right ${can ? 'bg-lime-400 text-slate-950 font-bold cursor-pointer' : 'bg-slate-800 text-slate-500'}">
+              <div class="text-[10px] uppercase">Kaufen +${count}</div>
               <div class="text-xs font-bold">${fmtEuro(cost)}</div>
             </button>
           </div>
@@ -551,10 +573,15 @@
         </div>
       `;
 
-      // Tab 3: Marketing
-      document.getElementById('tab-marketing').innerHTML = `<h1 class="font-display text-2xl font-bold uppercase text-white mb-2">Marketing & Sponsoren (+${eco.hypePct}% Umsatz)</h1>` + SPONSORS.map(s => {
+      // Tab 3: Marketing mit 1x / 10x / Max
+      document.getElementById('tab-marketing').innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h1 class="font-display text-2xl font-bold uppercase text-white">Marketing & Sponsoren (+${eco.hypePct}%)</h1>
+          ${renderBuyModeHeader()}
+        </div>
+      ` + SPONSORS.map(s => {
         const lvl = state.sponsors[s.id] || 0;
-        const cost = s.baseCost * Math.pow(s.mult, lvl);
+        const { count, cost } = calcBulkBuy(s.baseCost, s.mult, lvl, buyMode, state.money);
         const can = state.money >= cost;
         return `
           <div class="bg-[#121721] border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3">
@@ -563,15 +590,68 @@
               <h3 class="text-base font-bold text-white">${s.name}</h3>
               <p class="text-xs text-slate-300">${s.desc}</p>
             </div>
-            <button onclick="buySponsor('${s.id}')" ${!can ? 'disabled' : ''} class="min-h-[48px] min-w-[120px] px-4 py-2 rounded-xl font-mono-num text-right ${can ? 'bg-lime-400 text-slate-950 font-bold cursor-pointer' : 'bg-slate-800 text-slate-500'}">
-              <div class="text-[10px] uppercase">Vertrag +${s.bonus}%</div>
+            <button onclick="buySponsor('${s.id}')" ${!can ? 'disabled' : ''} class="min-h-[48px] min-w-[125px] px-4 py-2 rounded-xl font-mono-num text-right ${can ? 'bg-lime-400 text-slate-950 font-bold cursor-pointer' : 'bg-slate-800 text-slate-500'}">
+              <div class="text-[10px] uppercase">Kaufen +${count}</div>
               <div class="text-xs font-bold">${fmtEuro(cost)}</div>
             </button>
           </div>
         `;
       }).join('');
 
-      // Tab 4: Prestige
+      // Tab 4: Extra Reiter für Aufgaben (Tägliche Aufgaben & Meilensteine)
+      document.getElementById('tab-tasks').innerHTML = `
+        <div class="bg-[#121721] border border-white/10 rounded-2xl p-5 space-y-3">
+          <h2 class="font-display text-2xl font-bold uppercase text-lime-400">A. Tägliche Aufgaben</h2>
+          ${DAILY_MISSIONS.map(m => {
+            const cur = Math.min(m.target, state[m.metric] || 0);
+            const done = cur >= m.target;
+            const claimed = state.claimedDaily.includes(m.id);
+            const pct = Math.min(100, (cur / m.target) * 100);
+            return `
+              <div class="p-3.5 rounded-xl bg-[#090C10] border border-white/10">
+                <div class="flex items-center justify-between gap-2">
+                  <div>
+                    <div class="text-xs font-bold text-white">${m.title} <span class="text-amber-300 font-mono-num">· ${m.rewardText}</span></div>
+                    <div class="text-[11px] text-slate-400">${m.desc}</div>
+                  </div>
+                  <button onclick="claimDaily('${m.id}')" ${(!done || claimed) ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-bold uppercase ${claimed ? 'bg-lime-500/20 text-lime-300' : done ? 'bg-lime-400 text-slate-950 cursor-pointer' : 'bg-slate-800 text-slate-400 font-mono-num'}">
+                    ${claimed ? 'Erhalten' : done ? 'Abholen!' : `${fmtNum(cur, 0)}/${fmtNum(m.target, 0)}`}
+                  </button>
+                </div>
+                <div class="mt-2 w-full h-1.5 bg-[#121721] rounded-full overflow-hidden">
+                  <div class="h-full bg-lime-400" style="width:${pct}%"></div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="bg-[#121721] border border-white/10 rounded-2xl p-5 space-y-3">
+          <h2 class="font-display text-2xl font-bold uppercase text-amber-400">B. Meilensteine</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${MILESTONES.map(ms => {
+              const val = ms.metric === 'maxMachineLvl' ? eco.maxMachineLvl : (state[ms.metric] || 0);
+              const cur = Math.min(ms.target, val);
+              const unlocked = state.unlockedMilestones.includes(ms.id);
+              const pct = Math.min(100, (cur / ms.target) * 100);
+              return `
+                <div class="p-3.5 rounded-xl bg-[#090C10] border ${unlocked ? 'border-amber-500/40' : 'border-white/10'}">
+                  <div class="flex justify-between text-xs font-bold text-white">
+                    <span>${ms.title}</span>
+                    <span class="text-amber-400 font-mono-num">+${ms.coins} Coins</span>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">${ms.desc}</p>
+                  <div class="mt-2 w-full h-1.5 bg-[#121721] rounded-full overflow-hidden">
+                    <div class="h-full ${unlocked ? 'bg-amber-400' : 'bg-lime-400'}" style="width:${pct}%"></div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      // Tab 5: Prestige
       document.getElementById('tab-prestige').innerHTML = `
         <div class="bg-[#121721] border border-sky-500/30 rounded-2xl p-5">
           <h2 class="font-display text-2xl font-bold uppercase text-white">Imperium-Expansion (Prestige)</h2>
@@ -585,49 +665,23 @@
         </div>
       `;
 
-      // Tab 5: Stats
+      // Tab 6: Stats
       document.getElementById('tab-stats').innerHTML = `
         <div class="bg-[#121721] border border-white/10 rounded-2xl p-5 font-mono-num space-y-2 text-xs">
-          <h2 class="font-display text-2xl font-bold uppercase text-white mb-2">Statistiken & Speicherstand</h2>
-          <div>Gesamt-Umsatz (Aktueller Lauf): <strong class="text-emerald-400">${fmtEuro(state.totalMoney)}</strong></div>
-          <div>Produzierte Dosen (Allzeit): <strong class="text-lime-400">${fmtNum(state.totalCans, 0)}</strong></div>
+          <h2 class="font-display text-2xl font-bold uppercase text-white mb-2">Statistiken</h2>
+          <div>Gesamt-Umsatz: <strong class="text-emerald-400">${fmtEuro(state.totalMoney)}</strong></div>
+          <div>Produzierte Dosen: <strong class="text-lime-400">${fmtNum(state.totalCans, 0)}</strong></div>
+          <div>Höchste Maschinen-Stufe: <strong class="text-amber-400">Stufe ${eco.maxMachineLvl} / 50</strong></div>
           <div>Manuelle Shakes: <strong>${fmtNum(state.totalClicks, 0)}</strong></div>
-          <div>Prestige-Resets: <strong class="text-sky-400">${state.prestigeCount}</strong></div>
         </div>
       `;
     }
 
-    function claimOffline() {
-      if (!pendingOffline) return;
-      state.cans += pendingOffline.cans;
-      state.totalCans += pendingOffline.cans;
-      state.money += pendingOffline.money;
-      state.totalMoney += pendingOffline.money;
-      pendingOffline = null;
-      document.getElementById('offline-modal').classList.add('hidden');
-      renderAll();
-    }
-
-    // Load Save & Offline Progression
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        state = { ...state, ...JSON.parse(saved) };
-        const elapsed = Math.floor((Date.now() - (state.lastSaved || Date.now())) / 1000);
-        const eco = calcEconomy();
-        if (elapsed >= 5 && eco.totalDps > 0) {
-          const cans = eco.totalDps * Math.min(elapsed, 86400) * 0.65;
-          const money = cans * eco.canPrice;
-          pendingOffline = { cans, money };
-          document.getElementById('offline-duration').textContent = `Offline-Bericht · ${elapsed}s Abwesenheit`;
-          document.getElementById('offline-cans').textContent = '+' + fmtNum(cans, 0);
-          document.getElementById('offline-money').textContent = '+' + fmtEuro(money);
-          document.getElementById('offline-modal').classList.remove('hidden');
-        }
-      }
+      if (saved) state = { ...state, ...JSON.parse(saved) };
     } catch (e) {}
 
-    // 60fps Combo Decay Ring & 10Hz Game Tick
     setInterval(() => {
       const eco = calcEconomy();
       const dt = 0.1;
@@ -642,32 +696,36 @@
         bar.style.width = (ratio * 100) + '%';
         bar.style.backgroundColor = color;
         document.getElementById('combo-timer-label').textContent = rem > 0 ? `Reset in ${(rem / 1000).toFixed(1).replace('.', ',')}s` : 'Bereit';
-        if (rem <= 0 && comboCount > 0) {
-          comboCount = 0;
-          lastClickTs = 0;
-          renderAll();
-        }
+        if (rem <= 0 && comboCount > 0) { comboCount = 0; lastClickTs = 0; renderAll(); }
       }
 
       const cansDelta = eco.totalDps * dt;
-      const moneyDelta = cansDelta * eco.canPrice;
+      const autoMoneyDelta = eco.autoUnlocked ? cansDelta * eco.canPrice : 0;
       if (cansDelta > 0) {
         state.cans += cansDelta;
         state.totalCans += cansDelta;
-        state.money += moneyDelta;
-        state.totalMoney += moneyDelta;
+        state.money += autoMoneyDelta;
+        state.totalMoney += autoMoneyDelta;
         state.dailyCans += cansDelta;
       }
-      if (state.revBoostSec > 0) state.revBoostSec = Math.max(0, state.revBoostSec - dt);
-      state.lastSaved = Date.now();
+
+      MILESTONES.forEach(ms => {
+        if (!state.unlockedMilestones.includes(ms.id)) {
+          const val = ms.metric === 'maxMachineLvl' ? eco.maxMachineLvl : (state[ms.metric] || 0);
+          if (val >= ms.target) {
+            state.unlockedMilestones.push(ms.id);
+            state.gymCoins += ms.coins;
+          }
+        }
+      });
+
       document.getElementById('hud-money').textContent = fmtEuro(state.money);
       document.getElementById('hud-cans').textContent = fmtNum(state.cans, 0);
+      document.getElementById('sell-cans-label').textContent = `Lager Verkaufen (${fmtNum(state.cans, 1)} Dosen)`;
+      document.getElementById('sell-cans-euro').textContent = '+' + fmtEuro(state.cans * eco.canPrice);
     }, 100);
 
-    setInterval(() => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }, 5000);
-
+    setInterval(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }, 5000);
     renderAll();
   </script>
 </body>

@@ -114,11 +114,11 @@
             5. Prestige
           </button>
           <button onclick="switchTab('stats')" data-tab="stats" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white cursor-pointer">
-            6. Statistik &amp; Reset
+            6. Statistik &amp; Bestenliste
           </button>
         </nav>
         <div id="header-CanPrice" class="text-xs text-slate-400 font-mono-num">
-          Dosenpreis: 0,50 € · Auto-Geld ab Stufe 50
+          Dosenpreis: 0,50 € · Auto-Verkauf ab Stufe 50 oder 25 Coins
         </div>
       </div>
     </div>
@@ -130,7 +130,7 @@
         <div id="left-arena-col" class="lg:col-span-5 lg:sticky lg:top-20 flex flex-col gap-4">
           <div
             id="shaker-arena"
-            class="relative overflow-hidden rounded-2xl bg-[#121721] border border-white/[0.08] p-5 flex flex-col justify-between min-h-[450px] shadow-2xl"
+            class="relative overflow-hidden rounded-2xl bg-[#121721] border border-white/[0.08] p-5 flex flex-col justify-between min-h-[470px] shadow-2xl"
           >
             <div id="floating-text-layer" class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
 
@@ -205,9 +205,20 @@
                 <button
                   id="cta-sell-btn"
                   type="button"
-                  class="w-full min-h-[44px] py-2 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono-num text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+                  class="w-full min-h-[42px] py-2 px-4 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/50 text-emerald-300 font-mono-num text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
                 >
                   Lager Verkaufen (0 Dosen → +0,00 €)
+                </button>
+
+                <!-- AUTO-SELL WAREHOUSE FOR GYM COINS BUTTON -->
+                <button
+                  id="cta-autosell-btn"
+                  type="button"
+                  onclick="handleAutoSellButtonClick()"
+                  class="w-full min-h-[42px] py-2 px-4 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-300 font-mono-num text-xs font-bold flex items-center justify-between gap-2 transition-all cursor-pointer"
+                >
+                  <span>Lager automatisch verkaufen freischalten</span>
+                  <span>25 Gym-Coins</span>
                 </button>
               </div>
             </div>
@@ -216,7 +227,7 @@
             <div class="relative z-10 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-400 font-mono-num">
               <span id="arena-dps-footer">Automatik: 0,0 Dosen/s</span>
               <span id="arena-autosell-footer" class="text-amber-400 font-semibold">
-                Auto-Geld ab Maschine Stufe 50 (0/50)
+                Auto-Geld ab Stufe 50 oder 25 Coins
               </span>
             </div>
           </div>
@@ -243,7 +254,7 @@
             <div id="machines-list" class="space-y-3"></div>
           </section>
 
-          <!-- TAB 2: SHOP (PROMO CODE Gym100 + UPGRADES) -->
+          <!-- TAB 2: SHOP (DYNAMIC GYM[NUMBER] CODE + UPGRADES) -->
           <section id="tab-shop" class="hidden space-y-6">
             <div>
               <div class="text-xs text-slate-400">Gutschein-Zentrale &amp; Permanente Multiplikatoren</div>
@@ -252,7 +263,7 @@
               </h1>
             </div>
 
-            <!-- PROMO CODE BOX (Gym100 -> +100 Gym-Coins) -->
+            <!-- PROMO CODE BOX (Gym + any number -> that amount of Gym-Coins) -->
             <div class="bg-[#121721] border border-amber-500/30 rounded-2xl p-4 sm:p-5">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
@@ -261,14 +272,14 @@
                     Gym-Coins Code Einlösen
                   </h2>
                   <p class="text-xs text-slate-300 mt-0.5">
-                    Gib den Code <strong class="text-amber-300 font-mono-num">Gym100</strong> ein, um sofort <strong class="text-amber-400 font-mono-num">+100 Gym-Coins</strong> zu erhalten.
+                    Gib <strong class="text-amber-300 font-mono-num">Gym</strong> gefolgt von einer beliebigen Zahl ein (z. B. <strong class="text-amber-300 font-mono-num">Gym100</strong>, <strong class="text-amber-300 font-mono-num">Gym500</strong>, <strong class="text-amber-300 font-mono-num">Gym2500</strong>), um genau diese Anzahl an Gym-Coins zu erhalten!
                   </p>
                 </div>
                 <form onsubmit="redeemPromoCode(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <input
                     id="promo-code-input"
                     type="text"
-                    placeholder="Code eingeben (Gym100)"
+                    placeholder="z.B. Gym100 oder Gym500"
                     class="min-h-[42px] px-3.5 py-2 rounded-xl bg-[#090C10] border border-white/[0.12] focus:border-amber-400 focus:outline-none text-xs sm:text-sm font-mono-num text-white"
                   />
                   <button
@@ -364,13 +375,54 @@
             </div>
           </section>
 
-          <!-- TAB 6: STATISTIK & GESAMTER SPIELSTAND-RESET -->
+          <!-- TAB 6: STATISTIK, LOKALE TOP-5 BESTENLISTE & GESAMTER SPIELSTAND-RESET -->
           <section id="tab-stats" class="hidden space-y-6">
             <div class="bg-[#121721] border border-white/[0.08] rounded-2xl p-5">
               <h2 class="font-display text-xl font-bold uppercase tracking-wide text-white mb-3">
                 Imperium-Kennzahlen
               </h2>
               <div id="stats-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono-num"></div>
+            </div>
+
+            <!-- LOKALE TOP 5 BESTENLISTE (ALL-TIME MONEY EARNED IN LOCALSTORAGE) -->
+            <div class="bg-[#121721] border border-amber-500/30 rounded-2xl p-5">
+              <div class="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-white/[0.08]">
+                <div>
+                  <div class="text-xs text-amber-400 font-semibold uppercase tracking-wider">
+                    Lokale Ruhmeshalle · Top 5 Sessions (localStorage)
+                  </div>
+                  <h2 class="font-display text-2xl font-bold uppercase tracking-wide text-white mt-0.5">
+                    Imperium-Bestenliste (All-Time Umsatz)
+                  </h2>
+                  <p class="text-xs text-slate-300 mt-0.5">
+                    Speichert automatisch die Top 5 Spiel-Sessions nach dem gesamten jemals erwirtschafteten Umsatz („All-Time Money Earned“).
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                  <input
+                    id="empire-name-input"
+                    type="text"
+                    placeholder="Imperium-Name (z.B. APEX #1)"
+                    onchange="updateEmpireName(this.value)"
+                    class="min-h-[40px] px-3 py-1.5 rounded-xl bg-[#090C10] border border-white/[0.12] text-xs font-mono-num text-white"
+                  />
+                  <button
+                    onclick="saveState(); renderUI();"
+                    class="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase cursor-pointer"
+                  >
+                    Rekord Speichern
+                  </button>
+                  <button
+                    onclick="archiveAndStartNewSession()"
+                    class="min-h-[40px] px-3.5 py-1.5 rounded-xl bg-[#090C10] hover:bg-slate-800 border border-amber-500/40 text-amber-300 font-semibold text-xs cursor-pointer"
+                  >
+                    Neue Session Starten
+                  </button>
+                </div>
+              </div>
+
+              <div id="leaderboard-list" class="mt-4 space-y-2.5"></div>
             </div>
 
             <!-- GESAMTER SPIELSTAND-RESET -->
@@ -447,8 +499,10 @@
     </div>
 
     <script>
-      const STORAGE_KEY = 'apex_protein_standalone_v4';
+      const STORAGE_KEY = 'apex_protein_standalone_v5';
+      const LEADERBOARD_KEY = 'apex_protein_leaderboard_v1';
       const AUTO_SELL_UNLOCK_LEVEL = 50;
+      const AUTO_SELL_COIN_COST = 25;
       const COMBO_WINDOW_MS = 2400;
 
       const MACHINES = [
@@ -483,16 +537,21 @@
         { id: 'ach3', title: 'Vollautomatik (Stufe 50)', target: 50, metric: 'maxLvl', rewardCoins: 15, desc: 'Bringe eine Maschine auf Stufe 50.' }
       ];
 
-      function getDefaultState() {
+      function getDefaultState(sessionNum = 1) {
         return {
+          sessionId: 'session_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          empireName: 'APEX Imperium #' + sessionNum,
           money: 0,
           totalMoney: 0,
+          lifetimeMoney: 0,
           cans: 0,
           totalCans: 0,
           gymCoins: 15,
           proDna: 0,
           prestigeCount: 0,
           clicks: 0,
+          autoSellBought: false,
+          autoSellEnabled: true,
           machines: { m1: 0, m2: 0, m3: 0, m4: 0, m5: 0 },
           upgrades: [],
           sponsors: { s1: 0, s2: 0, s3: 0 },
@@ -501,11 +560,61 @@
         };
       }
 
-      let state = getDefaultState();
+      let state = getDefaultState(1);
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) state = { ...getDefaultState(), ...JSON.parse(saved) };
+        if (saved) state = { ...getDefaultState(1), ...JSON.parse(saved) };
       } catch (e) {}
+
+      function loadLeaderboard() {
+        try {
+          const raw = localStorage.getItem(LEADERBOARD_KEY);
+          if (raw) {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+              return arr.sort((a, b) => b.allTimeMoneyEarned - a.allTimeMoneyEarned).slice(0, 5);
+            }
+          }
+        } catch (e) {}
+        return [];
+      }
+
+      let leaderboard = loadLeaderboard();
+
+      function syncLeaderboard() {
+        const allTime = (state.lifetimeMoney || 0) + (state.totalMoney || 0);
+        if (allTime <= 0) return;
+        const idx = leaderboard.findIndex((x) => x.sessionId === state.sessionId);
+        const entry = {
+          sessionId: state.sessionId,
+          empireName: state.empireName || 'APEX Imperium #1',
+          allTimeMoneyEarned: Math.max(allTime, idx >= 0 ? leaderboard[idx].allTimeMoneyEarned : 0),
+          totalCansProduced: state.totalCans || 0,
+          prestigeCount: state.prestigeCount || 0
+        };
+        if (idx >= 0) {
+          leaderboard[idx] = entry;
+        } else {
+          leaderboard.push(entry);
+        }
+        leaderboard = leaderboard.sort((a, b) => b.allTimeMoneyEarned - a.allTimeMoneyEarned).slice(0, 5);
+        try {
+          localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(leaderboard));
+        } catch (e) {}
+      }
+
+      window.updateEmpireName = function (val) {
+        state.empireName = (val || '').trim() || 'APEX Imperium #1';
+        saveState();
+        renderUI();
+      };
+
+      window.archiveAndStartNewSession = function () {
+        syncLeaderboard();
+        state = getDefaultState(leaderboard.length + 2);
+        saveState();
+        renderUI();
+      };
 
       let buyMode = 1;
       let combo = 0;
@@ -550,36 +659,62 @@
         if (state.upgrades.includes('u1')) clickPower *= 2;
         if (state.upgrades.includes('u2')) clickPower *= 2.5;
 
-        const autoMoneyUnlocked = maxLvl >= AUTO_SELL_UNLOCK_LEVEL;
-        const pendingDna = state.totalMoney >= 25000 ? Math.floor(Math.sqrt(state.totalMoney / 25000)) : 0;
+        const autoMoneyUnlocked = Boolean(state.autoSellBought) || maxLvl >= AUTO_SELL_UNLOCK_LEVEL;
+        const isAutoSellActive = autoMoneyUnlocked && state.autoSellEnabled !== false;
+        const allTimeRevenue = (state.lifetimeMoney || 0) + (state.totalMoney || 0);
+        const pendingDna = allTimeRevenue >= 25000 ? Math.floor(Math.sqrt(allTimeRevenue / 25000)) : 0;
 
-        return { dps, maxLvl, mktPct, price, clickPower, autoMoneyUnlocked, pendingDna };
+        return { dps, maxLvl, mktPct, price, clickPower, autoMoneyUnlocked, isAutoSellActive, pendingDna, allTimeRevenue };
       }
 
-      // Promo Code Gym100 -> +100 Gym-Coins
+      // Unlock or Toggle Auto-Sell Warehouse for 25 Gym-Coins
+      window.handleAutoSellButtonClick = function () {
+        const eco = getEconomy();
+        if (!eco.autoMoneyUnlocked) {
+          if (state.gymCoins < AUTO_SELL_COIN_COST) return;
+          state.gymCoins -= AUTO_SELL_COIN_COST;
+          state.autoSellBought = true;
+          state.autoSellEnabled = true;
+          const stockEuro = state.cans * eco.price;
+          state.cans = 0;
+          state.money += stockEuro;
+          state.totalMoney += stockEuro;
+        } else {
+          state.autoSellEnabled = state.autoSellEnabled === false ? true : false;
+        }
+        saveState();
+        renderUI();
+      };
+
+      // Dynamic Gym[Number] Promo Code -> grants any number entered after "Gym"
       window.redeemPromoCode = function (e) {
         e.preventDefault();
         const input = document.getElementById('promo-code-input');
         const fb = document.getElementById('promo-code-feedback');
         const code = (input.value || '').trim();
         fb.classList.remove('hidden');
-        if (code.toLowerCase() === 'gym100') {
-          state.gymCoins += 100;
-          input.value = '';
-          fb.className = 'mt-3 px-3.5 py-2 rounded-xl text-xs font-medium bg-emerald-950/70 border border-emerald-500/40 text-emerald-200';
-          fb.textContent = 'Code „Gym100“ erfolgreich eingelöst! +100 Gym-Coins gutgeschrieben.';
-          saveState();
-          renderUI();
-        } else {
-          fb.className = 'mt-3 px-3.5 py-2 rounded-xl text-xs font-medium bg-rose-950/70 border border-rose-500/40 text-rose-200';
-          fb.textContent = 'Ungültiger Code. Tipp: Nutze den Code „Gym100“ für +100 Gym-Coins!';
+        const match = code.match(/^gym\s*(\d+)$/i);
+        if (match) {
+          const amount = parseInt(match[1], 10);
+          if (amount > 0) {
+            state.gymCoins += amount;
+            input.value = '';
+            fb.className = 'mt-3 px-3.5 py-2 rounded-xl text-xs font-medium bg-emerald-950/70 border border-emerald-500/40 text-emerald-200';
+            fb.textContent = `Code „${code}“ erfolgreich eingelöst! +${fmtNum(amount, 0)} Gym-Coins gutgeschrieben.`;
+            saveState();
+            renderUI();
+            return;
+          }
         }
+        fb.className = 'mt-3 px-3.5 py-2 rounded-xl text-xs font-medium bg-rose-950/70 border border-rose-500/40 text-rose-200';
+        fb.textContent = 'Ungültiger Code. Tipp: Gib „Gym“ gefolgt von einer beliebigen Zahl ein (z. B. Gym100 oder Gym500)!';
       };
 
       // Full Game Hard Reset under Statistik
       window.hardResetFullGame = function () {
+        syncLeaderboard();
         localStorage.removeItem(STORAGE_KEY);
-        state = getDefaultState();
+        state = getDefaultState(leaderboard.length + 1);
         combo = 0;
         lastClickTs = 0;
         document.getElementById('reset-confirm-box').classList.add('hidden');
@@ -668,6 +803,8 @@
           triggerPrestigeExplosion(event, true);
           return;
         }
+        state.lifetimeMoney = (state.lifetimeMoney || 0) + state.totalMoney;
+        state.totalMoney = 0;
         state.proDna += eco.pendingDna;
         state.gymCoins += 5;
         state.prestigeCount += 1;
@@ -699,13 +836,15 @@
 
         const eco = getEconomy();
         const gained = eco.clickPower * (1 + combo * 0.025);
-        state.cans += gained;
         state.totalCans += gained;
         state.clicks += 1;
-        if (eco.autoMoneyUnlocked) {
-          const euro = gained * eco.price;
+        if (eco.isAutoSellActive) {
+          const euro = (state.cans + gained) * eco.price;
+          state.cans = 0;
           state.money += euro;
           state.totalMoney += euro;
+        } else {
+          state.cans += gained;
         }
 
         const arenaRect = document.getElementById('shaker-arena').getBoundingClientRect();
@@ -782,6 +921,7 @@
       function saveState() {
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          syncLeaderboard();
         } catch (e) {}
       }
 
@@ -797,10 +937,18 @@
         document.getElementById('arena-can-price').textContent = `(Wert: ${fmtEuro(eco.price)} / Dose)`;
         document.getElementById('arena-combo-text').textContent = `${(1 + combo * 0.025).toFixed(2)}x (${combo}/25)`;
         document.getElementById('cta-sell-btn').textContent = `Lager Verkaufen (${fmtNum(state.cans, 0)} Dosen → +${fmtEuro(state.cans * eco.price)})`;
+
+        const autoBtn = document.getElementById('cta-autosell-btn');
+        if (!eco.autoMoneyUnlocked) {
+          autoBtn.innerHTML = `<span>Lager automatisch verkaufen freischalten</span><span>${AUTO_SELL_COIN_COST} Gym-Coins</span>`;
+        } else {
+          autoBtn.innerHTML = `<span>Auto-Lager-Verkauf: ${eco.isAutoSellActive ? 'AKTIV' : 'PAUSIERT'}</span><span class="underline">${eco.isAutoSellActive ? 'Pausieren' : 'Aktivieren'}</span>`;
+        }
+
         document.getElementById('arena-dps-footer').textContent = `Automatik: ${fmtNum(eco.dps, 1)} Dosen/s`;
-        document.getElementById('arena-autosell-footer').textContent = eco.autoMoneyUnlocked
-          ? `Auto-Geld Aktiv (+${fmtEuro(eco.dps * eco.price)}/s)`
-          : `Auto-Geld ab Maschine Stufe 50 (${eco.maxLvl}/50)`;
+        document.getElementById('arena-autosell-footer').textContent = eco.isAutoSellActive
+          ? `Auto-Verkauf Aktiv (+${fmtEuro(eco.dps * eco.price)}/s)`
+          : `Auto-Geld ab Stufe 50 (${eco.maxLvl}/50) oder 25 Coins`;
 
         // Machines
         document.getElementById('machines-list').innerHTML = MACHINES.map((m) => {
@@ -866,7 +1014,7 @@
 
         // Daily Missions
         document.getElementById('daily-missions-list').innerHTML = DAILY_MISSIONS.map((d) => {
-          const val = d.metric === 'clicks' ? state.clicks : d.metric === 'cans' ? state.totalCans : state.totalMoney;
+          const val = d.metric === 'clicks' ? state.clicks : d.metric === 'cans' ? state.totalCans : eco.allTimeRevenue;
           const done = val >= d.target;
           const claimed = state.claimedDaily.includes(d.id);
           return `
@@ -903,8 +1051,8 @@
         document.getElementById('prestige-pending-dna').textContent = `+${eco.pendingDna} Pro-DNA & +5 Gym-Coins`;
         document.getElementById('stats-grid').innerHTML = `
           <div class="p-3 rounded-xl bg-[#090C10] border border-white/[0.06]">
-            <div class="text-[11px] text-slate-400">Gesamt-Umsatz</div>
-            <div class="text-sm font-bold text-emerald-400 mt-1">${fmtEuro(state.totalMoney)}</div>
+            <div class="text-[11px] text-slate-400">All-Time Umsatz</div>
+            <div class="text-sm font-bold text-emerald-400 mt-1">${fmtEuro(eco.allTimeRevenue)}</div>
           </div>
           <div class="p-3 rounded-xl bg-[#090C10] border border-white/[0.06]">
             <div class="text-[11px] text-slate-400">Produzierte Dosen</div>
@@ -915,6 +1063,59 @@
             <div class="text-sm font-bold text-white mt-1">${fmtNum(state.clicks, 0)}</div>
           </div>
         `;
+
+        // Top 5 Local Leaderboard rendering
+        const nameInput = document.getElementById('empire-name-input');
+        if (nameInput && document.activeElement !== nameInput) {
+          nameInput.value = state.empireName || 'APEX Imperium #1';
+        }
+        const mergedLb = [...leaderboard];
+        const curIdx = mergedLb.findIndex((x) => x.sessionId === state.sessionId);
+        const liveEntry = {
+          sessionId: state.sessionId,
+          empireName: state.empireName || 'APEX Imperium #1',
+          allTimeMoneyEarned: eco.allTimeRevenue,
+          totalCansProduced: state.totalCans || 0,
+          prestigeCount: state.prestigeCount || 0
+        };
+        if (curIdx >= 0) {
+          mergedLb[curIdx] = {
+            ...mergedLb[curIdx],
+            ...liveEntry,
+            allTimeMoneyEarned: Math.max(mergedLb[curIdx].allTimeMoneyEarned, eco.allTimeRevenue)
+          };
+        } else {
+          mergedLb.push(liveEntry);
+        }
+        const top5 = mergedLb.sort((a, b) => b.allTimeMoneyEarned - a.allTimeMoneyEarned).slice(0, 5);
+
+        document.getElementById('leaderboard-list').innerHTML = top5.map((entry, i) => {
+          const rank = i + 1;
+          const isCurrent = entry.sessionId === state.sessionId;
+          return `
+            <div class="p-3.5 rounded-xl border flex items-center justify-between gap-3 ${
+              isCurrent ? 'bg-amber-500/10 border-amber-400/50' : 'bg-[#090C10] border-white/[0.06]'
+            }">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/40 text-amber-300 font-display font-bold flex items-center justify-center">
+                  #${rank}
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-white">
+                    ${entry.empireName} ${isCurrent ? '<span class="text-[10px] text-lime-400 font-mono-num uppercase">· Aktive Session</span>' : ''}
+                  </div>
+                  <div class="text-[11px] text-slate-400 font-mono-num">
+                    Prestige #${entry.prestigeCount} · ${fmtNum(entry.totalCansProduced, 0)} Dosen
+                  </div>
+                </div>
+              </div>
+              <div class="text-right font-mono-num">
+                <div class="text-[10px] text-slate-400 uppercase">All-Time Umsatz</div>
+                <div class="text-sm font-bold text-emerald-400">${fmtEuro(entry.allTimeMoneyEarned)}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
       }
 
       // 60fps Combo Ring Decay + 10Hz Production Loop
@@ -938,13 +1139,16 @@
 
       setInterval(() => {
         const eco = getEconomy();
-        if (eco.dps > 0) {
+        if (eco.dps > 0 || (eco.isAutoSellActive && state.cans > 0)) {
           const delta = eco.dps * 0.2;
-          state.cans += delta;
           state.totalCans += delta;
-          if (eco.autoMoneyUnlocked) {
-            state.money += delta * eco.price;
-            state.totalMoney += delta * eco.price;
+          if (eco.isAutoSellActive) {
+            const soldCans = state.cans + delta;
+            state.cans = 0;
+            state.money += soldCans * eco.price;
+            state.totalMoney += soldCans * eco.price;
+          } else {
+            state.cans += delta;
           }
           renderUI();
         }
